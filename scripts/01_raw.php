@@ -1,4 +1,5 @@
 <?php
+$basePath = dirname(__DIR__);
 $layers = array(
   'sidewalk/DynamicLayer/MapServer/0' => '地標',
   'sidewalk/DynamicLayer/MapServer/1' => '人行道人手孔',
@@ -17,8 +18,8 @@ $layers = array(
 );
 foreach($layers AS $layerUrl => $layerName) {
   $layerId = str_replace('/', '_', $layerUrl);
-  $idFile = __DIR__ . '/raw/' . $layerId . 'Id';
-  $layerPath = __DIR__ . '/raw/' . $layerId;
+  $idFile = $basePath . '/raw/' . $layerId . 'Id';
+  $layerPath = $basePath . '/raw/' . $layerId;
   if(!file_exists($layerPath)) {
     mkdir($layerPath, 0777, true);
   }

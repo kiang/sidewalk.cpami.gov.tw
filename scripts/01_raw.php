@@ -35,7 +35,7 @@ foreach($layers AS $layerUrl => $layerName) {
       $targetFile = $layerPath . '/data_' . $lastId . '.json';
       if(!file_exists($targetFile)) {
         $q = implode(',', $objects);
-        $json = gzdecode(shell_exec("curl -k 'http://sidewalk.cpami.gov.tw/ArcGIS/rest/services/{$layerUrl}/query?objectIds={$q}&outFields=*&returnGeometry=true&f=json' -H 'Host: sidewalk.cpami.gov.tw' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Referer: http://sidewalk.cpami.gov.tw/ArcGIS/rest/services/' -H 'Connection: keep-alive'"));
+        $json = gzdecode(shell_exec("curl -k 'http://sidewalk.cpami.gov.tw/ArcGIS/rest/services/{$layerUrl}/query?objectIds={$q}&outFields=*&outSR=4326&returnGeometry=true&f=json' -H 'Host: sidewalk.cpami.gov.tw' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Referer: http://sidewalk.cpami.gov.tw/ArcGIS/rest/services/' -H 'Connection: keep-alive'"));
         $obj = json_decode($json, true);
         if(!isset($obj['features'][0])) {
           file_put_contents($idFile, $lastId);

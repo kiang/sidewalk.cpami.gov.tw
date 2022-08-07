@@ -15,6 +15,15 @@ $layers = array(
   'sidewalk/DynamicLayer/MapServer/11' => '人行道固定設施(出入口)',
   'sidewalk/DynamicLayer/MapServer/12' => '人行道固定設施(其他)_面',
   'sidewalk/DynamicLayer/MapServer/13' => '人行道(面)',
+  'sidewalk/DisabFree_Road/MapServer/0' => '2020',
+  'sidewalk/DisabFree_Road/MapServer/1' => '2019',
+  'sidewalk/DisabFree_Road/MapServer/2' => '2018',
+  'sidewalk/DisabFree_Road/MapServer/3' => '2017',
+  'sidewalk/DisabFree_Road/MapServer/4' => '2016',
+  'sidewalk/DisabFree_Road/MapServer/5' => '2015',
+  'sidewalk/DisabFree_Road/MapServer/6' => '2014',
+  'sidewalk/DisabFree_Road/MapServer/7' => '2013',
+  'sidewalk/DisabFree_Road/MapServer/8' => '2012',
 );
 foreach($layers AS $layerUrl => $layerName) {
   $layerId = str_replace('/', '_', $layerUrl);

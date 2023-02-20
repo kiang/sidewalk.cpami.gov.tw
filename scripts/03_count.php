@@ -6,7 +6,7 @@ $labels = [
     'NAME' => '道路名稱',
     'PSTART' => '道路_起點',
     'PEND' => '道路_迄點',
-    'SW_DIRECT' => '人行道方向, 1 = 東/南側',
+    'SW_DIRECT' => '人行道方向', //1 = 東/南側
     'LENGTH' => '道路_長度(中心線長度)',
     'WIDTH_U' => '道路寬度(包含雙向人行道)',
     'WIDTH_C' => '車道寬度(不含人行道)',
@@ -37,30 +37,44 @@ $labels = [
     'MEMO' => '附註說明',
     'SW_BRKRAT' => '破損程度',
     'SW_PAVE_C' => '鋪面材質一致性(不計退縮地舖面)',
-    'SW_PASS' => '固定設施物或阻礙物影響通行程度, 1 = 無阻斷及阻礙',
-    'SW_USES' => '土地使用分區, 3 = 住宅區',
+    'SW_PASS' => '固定設施物或阻礙物影響通行程度', //1 = 無阻斷及阻礙
+    'SW_USES' => '土地使用分區', //3 = 住宅區
     'COUNTY_NA' => '縣市',
     'VILL_NAME' => '鄉鎮市區',
     'KEY_DATE' => '人行道普查日期',
 ];
 
+$skel = [
+    '400' => 0.0,
+    '250' => 0.0,
+    '150' => 0.0,
+    '100' => 0.0,
+    'sum' => 0.0,
+];
 $pool = [];
 foreach (glob($csvPath . '/*.csv') as $csvFile) {
     $fh = fopen($csvFile, 'r');
     $head = fgetcsv($fh, 2048);
+    foreach ($head as $k => $v) {
+        if (isset($labels[$v])) {
+            $head[$k] = $labels[$v];
+        }
+    }
     while ($line = fgetcsv($fh, 2048)) {
-        $city = $line[38];
-        $area = $line[39];
-        if (!isset($pool[$city])) {
-            $pool[$city] = [
-                'sum' => 0,
-            ];
+        $data = array_combine($head, $line);
+        if(!isset($pool[$data['縣市']])) {
+            $pool[$data['縣市']] = $skel;
         }
-        if (!isset($pool[$city][$area])) {
-            $pool[$city][$area] = 0;
+        if ($data['人行道淨寬'] >= 4) {
+            $pool[$data['縣市']]['400'] += round($data['人行道長度']);
+        } elseif ($data['人行道淨寬'] >= 2.5) {
+            $pool[$data['縣市']]['250'] += round($data['人行道長度']);
+        } elseif ($data['人行道淨寬'] >= 1.5) {
+            $pool[$data['縣市']]['150'] += round($data['人行道長度']);
+        } else {
+            $pool[$data['縣市']]['100'] += round($data['人行道長度']);
         }
-        $pool[$city][$area] += round($line[9]);
-        $pool[$city]['sum'] += round($line[9]);
+        $pool[$data['縣市']]['sum'] += round($data['人行道長度']);
     }
 }
 

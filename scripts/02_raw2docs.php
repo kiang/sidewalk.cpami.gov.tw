@@ -22,7 +22,7 @@ foreach (glob($basePath . '/raw/DynamicLayer_MapServer_13/*.json') as $jsonFile)
             $pool[$city][$area] = $fc;
         }
         $f['properties'] = [
-            'road' => "{$f['properties']['NAME']}在{$f['properties']['PSTART']}與{$f['properties']['PEND']}之間",
+            'road' => "{$city}{$area}{$f['properties']['NAME']}在{$f['properties']['PSTART']}與{$f['properties']['PEND']}之間",
             'width' => $f['properties']['SW_WTH'],
         ];
         if (!empty($f['geometry'])) {
